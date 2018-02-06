@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import List from '../containers/List';
 import ItemDetail from '../containers/ItemDetail'
 import {JsonTree} from 'react-editable-json-tree'
-import data from './data.js';
+//import data from '../reducers/data.js';
+import {connect} from 'react-redux'
 
 class App extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      data: props.data,
+      data: this.props.data,
     }
     this.onFullyUpdate = this.onFullyUpdate.bind(this);
   }
@@ -17,10 +18,10 @@ class App extends Component {
   onFullyUpdate(data) {
 
     let updatedData = JSON.stringify(data);
-      this.setState({
+    this.setState({
           data : updatedData,
-      });
-      console.log(updatedData);
+    });
+    console.log("updated Data"+this.state.data);
   }
 
   render() {
@@ -35,14 +36,22 @@ class App extends Component {
             </div>
         </div>
         <div style={{float:'right',width:"40%",backgroundColor:'#CEF7E4'}}>
-            <JsonTree data={data}  
+            <JsonTree data={this.props.data}  
                   onFullyUpdate={this.onFullyUpdate} 
                   readOnly={(name, value, keyPath) => (keyPath[keyPath.length - 1] === 'id')}
-                />
+            />
         </div>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  //console.log(JSON.stringify(state.data));
+  return {
+      data : state.data
+  };
+}
+
+export default connect(mapStateToProps)(App)
+//export default App;

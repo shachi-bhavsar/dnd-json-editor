@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 
-import styles from './List.css'
-
 class ItemDetail extends Component {
 
     onDragStart = (e,v) => {
@@ -27,5 +25,4 @@ const mapStateToProps = (state) => {
         product : state.activeItem
     };
 }
-
 export default connect(mapStateToProps)(ItemDetail)
